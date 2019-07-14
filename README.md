@@ -13,6 +13,7 @@
   + [Установка Clover bootloader](#install-clover-bootloader)
   + [Настройка Clover и системы](#configure-clover)
   + [Отключить гибернацию](#turn-off-hibernation)
+  + [SMBIOS и iMessage](#smbios-and-imessage)
 * [Использованные материалы](#references)
 
 ## <a name="description"></a> Описание
@@ -79,14 +80,14 @@ Clover Post-Install Files:
 
 - Работающий хакинтош на 10.14 (Mojave) и 10.13.x (High Sierra)
 - Нет поддрежки 4К дисплея *(у меня FullHD ноутбук)*. Но @Nihhaar считает что получится подключить с помощью `его файлов` + `CoreDisplayFixup.kext` + `DVMT patch`
-- HDMI не работает, потому что он подключен к Nvidia карте, которую мы отключили (для Optimus ноутбуков невозможно завести дискретное видео)
 
 ### <a name="known-bugs"></a> Известные проблемы
 
-- Встроенный Wi-Fi не работает (нужно заменить модуль на совместимый, например *Broadcomm BCM94352Z*)
-- SDCard reader (возможно не хватает нескольких кекстов)
+- Не работает дискретная карта (нет способа завести Optimus на macOS)
+- Встроенный Wi-Fi не работает (нужно заменить модуль на совместимый, например *Dell DW1560 (на Broadcomm BCM94352Z)*)
 - Звук через наушники пропадает после сна (скорее всего поможет downgrade AppleALC до версии ~1.2.8)
 - Микрофон гарнитуры
+- HDMI не работает, потому что он подключен к Nvidia карте, которую мы отключили (для Optimus ноутбуков невозможно завести дискретное видео)
 
 ### <a name="specs"></a> Протестировано
 
@@ -281,6 +282,10 @@ sudo pmset -a standby 0
 sudo pmset -a autopoweroff 0
 sudo pmset -a powernap 0
 ```
+
+### <a name="smbios-and-imessage"></a> SMBIOS и iMessage
+
+Инструкция по настройке SMBIOS, после выполнения которой заработают iMessage, FaceTime и тд. [An iDiot's Guide To iMessage](https://www.tonymacx86.com/threads/an-idiots-guide-to-imessage.196827/)
 
 ## <a name="references"></a> Использованные материалы
 
