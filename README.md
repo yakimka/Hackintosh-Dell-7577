@@ -230,7 +230,7 @@ Install media now available at "/Volumes/Install macOS Mojave"
 ## <a name="installation"></a> Установка
 
 - Во время загрузки ноутбука постоянно нажимайте F12, чтобы появилось "one-time boot-menu" в котором нужно выбрать созданную несколькими шагами ранее флешку
-- Выберите *install_osx* в Clover (желательно с опцией -v)
+- Выберите *install_osx* в Clover
 - Откройте *Дисковую утилиту* и отформатируйте раздел в apfs и назначьте ему метку (например MacOS)
 - Теперь система автоматически перезагрузится. Загрузитесь в Clover снова, но теперь выберите *Install macOS High Sierra* (или *Install macOS Mojave*) вместо *install_osx*
 

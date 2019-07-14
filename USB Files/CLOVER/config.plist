@@ -109,7 +109,7 @@
 	<key>Boot</key>
 	<dict>
 		<key>Arguments</key>
-		<string>nv_disable=1 -disablegfxfirmware</string>
+		<string>nv_disable=1 -disablegfxfirmware -v</string>
 		<key>Debug</key>
 		<false/>
 		<key>DefaultLoader</key>
