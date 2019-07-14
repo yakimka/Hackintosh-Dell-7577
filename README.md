@@ -78,15 +78,15 @@ Clover Post-Install Files:
 ### <a name="notes"></a> Примечания
 
 - Работающий хакинтош на 10.14 (Mojave) и 10.13.x (High Sierra)
-- Нет поддрежки 4К дисплея *(у меня FullHD ноутбук)*. Но @Nihhaar считает его получится подключить с помощью `его файлов` + `CoreDisplayFixup.kext` + `DVMT patch`
+- Нет поддрежки 4К дисплея *(у меня FullHD ноутбук)*. Но @Nihhaar считает что получится подключить с помощью `его файлов` + `CoreDisplayFixup.kext` + `DVMT patch`
 - HDMI не работает, потому что он подключен к Nvidia карте, которую мы отключили (для Optimus ноутбуков невозможно завести дискретное видео)
 
 ### <a name="known-bugs"></a> Известные проблемы
 
-- Встроенный Wi-Fi не работает (нужно заменить модель на совместимый, например Broadcomm BCM94352Z)
+- Встроенный Wi-Fi не работает (нужно заменить модуль на совместимый, например *Broadcomm BCM94352Z*)
 - SDCard reader (возможно не хватает нескольких кекстов)
-- Audio via headphones after sleep (This actually worked on previous releases, so may be need to downgrade AppleALC to tested version like 1.2.8)
-- Built-in mic for headphones may not work
+- Звук через наушники пропадает после сна (скорее всего поможет downgrade AppleALC до версии ~1.2.8)
+- Микрофон гарнитуры
 
 ### <a name="specs"></a> Протестировано
 
@@ -95,14 +95,15 @@ Clover Post-Install Files:
 - 8GB DDR4 RAM
 - 15.6" 1080p IPS Display
 - 256GB Samsung 970 EVO M.2 SSD / 256GB Samsung 850 EVO SATA SSD
+- macOS High Sierra / macOS Mojave
 
 ### <a name="requirements"></a> Требования
 
 - Установить параметры BIOS:
-  - Отключить Legacy Option ROMs
-  - Изменить SATA operation на AHCI (If already using windows, google how to)
-  - Отключить Secure Boot
-  - Отключить VT для Direct I/O (VT-d)
+  - Убрать галочку с *General -> Advanced Boot Options -> Enable Legacy Options ROMs*
+  - Изменить *System Configuration -> SATA Operations* на AHCI
+  - Изменить *Secure Boot -> Secure Boot Enable* на Disabled
+  - Убрать галочку с *Virtualization Support -> VT for Direct I/O -> Enable VT for Direct I/O*
 - USB флешка размером >= 16GB, желательно USB 2.0 (с 3.0 у меня не получилось установить)
 
 ## <a name="create-usb"></a> Создание загрузочной флешки
@@ -111,17 +112,17 @@ Clover Post-Install Files:
 
 ### <a name="create-usb-macos"></a> В MacOS
 
-1. Вставить флешку в компьютер
-2. Вводим в терминал команду `diskutil list` и запоминаем номер диска флешки (diskX, где X - номер)
+1. Вставить флешку в ноутбук
+2. Вводим в терминал команду `diskutil list` и запоминаем номер флешки (diskX, где X - номер)
 3. Создаем разделы: `diskutil partitionDisk /dev/diskX 2 MBR FAT32 "CLOVER EFI" 200Mi HFS+J "install_osx" R`
 4. Копируем файлы для установки `sudo "/Applications/Install macOS Mojave.app/Contents/Resources/createinstallmedia" --volume /Volumes/install_osx`
 5. [Скачиваем](https://sourceforge.net/projects/cloverefiboot/files/Installer/) последнюю версию Clover и запускаем установщик
-6. Выбираем раздел "CLOVER EFI" для установки
-7. Выбираем "Настроить" и отмечаем пункты
-    - Установить Clover только для UEFI загрузки ("Установить Clover на раздел ESP" выберется автоматически)
-    - OSXAptioFix3Drv (Драйверы для UEFI закгрузки -> Memory fix drivers)
+6. Выбираем раздел *CLOVER EFI* для установки
+7. Выбираем *Настроить* и отмечаем пункты
+    - *Установить Clover только для UEFI загрузки* (*Установить Clover на раздел ESP* выберется автоматически)
+    - *OSXAptioFix3Drv* (*Драйверы для UEFI закгрузки* -> *Memory fix drivers*)
 8. Начать установку
-9. Раскладываем по своим местам файлы из директории USB Files этого репозитория
+9. Раскладываем по своим местам файлы из директории *USB Files* этого репозитория
 
 ```plaintext
 # serj @ MacBook-Pro-Serj in ~ [21:24:45]
@@ -199,16 +200,22 @@ Install media now available at "/Volumes/Install macOS Mojave"
 
 ### <a name="create-usb-windows"></a> В Windows
 
-1. Скачиваем BootDiskUtility [отсюда](http://cvad-mac.narod.ru/index/bootdiskutility_exe/0-5)
+1. Скачиваем *BootDiskUtility* [отсюда](http://cvad-mac.narod.ru/index/bootdiskutility_exe/0-5)
 2. Распаковываем утилиту в любую папку.
 3. Скачиваем образ macOS [отсюда](https://mac-ru.net/viewtopic.php?t=1402), [отсюда](https://mac-ru.net/viewtopic.php?t=41), [отсюда](https://nnmclub.to/forum/viewtopic.php?t=1069291) или с [магнет-ссылки](http://магнит.tk/#magnet:?dn=BDUOSXDISTR&xt=urn:btih:64125b9f1387632e1b35b8da27eba422f9821d43) или из [меги](https://mega.nz/#!5wgzXQhR!uQHg6rSwJ5FH-oOWphm0HZxv1fqlaNfb1a_sKgzMjGI)
 4. Распаковываем образ из архива.
-5. Открываем BootDiskUtility, заходим в секцию настроек, в Clover bootloader source выбираем Not install (В моем случае BDU неправильно распаковывала установщик, поэтому сделаем это вручную).
-6. Выбираем свое USB-устройство, нажимаем Format Drive.
+5. Открываем *BootDiskUtility*, заходим в секцию настроек, в *Clover bootloader source* выбираем *Not install* (В моем случае BDU неправильно распаковывала установщик, поэтому сделаем это вручную).
+6. Выбираем свое USB-устройство, нажимаем *Format Drive*.
 7. [Скачиваем](https://sourceforge.net/projects/cloverefiboot/files/Bootable_ISO/) ISO образ Clover. Распаковываем с помощью 7-zip сначала архив, а затем и сам iso образ.
-8. Копируем EFI, Library, usr в корень "CLOVER EFI" раздела.
-9. Из EFI/CLOVER/drivers/off/ копируем ApfsDriverLoader.efi, AudioDxe.efi, DataHubDxe.efi, FSInject.efi, OsxAptioFix3Drv.efi, SMCHelper.efi в EFI/CLOVER/drivers/UEFI/
-10. Раскладываем по своим местам файлы из директории USB Files этого репозитория
+8. Копируем *EFI*, *Library*, *usr* в корень *CLOVER EFI* раздела.
+9. Из *EFI/CLOVER/drivers/off/* в *EFI/CLOVER/drivers/UEFI/* копируем:
+    * ApfsDriverLoader.efi
+    * AudioDxe.efi
+    * DataHubDxe.efi
+    * FSInject.efi
+    * OsxAptioFix3Drv.efi
+    * SMCHelper.efi
+10. Раскладываем по своим местам файлы из директории *USB Files* этого репозитория
 
 >На этом шаге у вас уже должен быть скачан образ macOS в виде 5.hfs.
 
@@ -229,10 +236,19 @@ Install media now available at "/Volumes/Install macOS Mojave"
 
 ## <a name="installation"></a> Установка
 
-- Во время загрузки ноутбука постоянно нажимайте F12, чтобы появилось "one-time boot-menu" в котором нужно выбрать созданную несколькими шагами ранее флешку
-- Выберите *install_osx* в Clover
-- Откройте *Дисковую утилиту* и отформатируйте раздел в apfs и назначьте ему метку (например MacOS)
-- Теперь система автоматически перезагрузится. Загрузитесь в Clover снова, но теперь выберите *Install macOS High Sierra* (или *Install macOS Mojave*) вместо *install_osx*
+- Во время загрузки ноутбука постоянно нажимайте F12, чтобы появилось *one-time boot-menu* в котором нужно выбрать созданную несколькими шагами ранее флешку
+- Выберите *Boot macOS install from Install macOS High Sierra (или Mojave)* в Clover
+- Ждем загрузки установщика запасшись терпением, потому что это занимает довольно много времени (5-10 минут)
+- Откройте *Дисковую утилиту* и отформатируйте раздел в apfs (я выбираю регистрозависимую) и назначьте ему метку (например MacOS)
+- Закройте *Дисковую утилиту* это вернет вас на первоначальный экран установки
+- Выберите *Установка macOS*
+- Начнется установка. По истечении некоторого времени ноубук самостоятельно перезагрузится (выглядит это будто установка прервалась, прогресс бар будет заполнен не полностью: это нормально)
+- Опять заходим в *one-time boot-menu*. Тут появился новый вариант загрузки *macOS*, но он не работает и его можно удалить (в BIOS).
+- Снова загружаемся с флешки, но теперь выберите *Boot macOS install from "Имя раздела, которое вы дали диску в Дисковой утилите"*
+- Опять долго ждем загрузки и дожидаемся окончания установки, по окончании которой ноубук в очередной раз перезагрузится
+- Снова грузимся с флешки, но теперь выбираем *Boot macOS from "Имя раздела, которое вы дали диску в Дисковой утилите"*
+- Проходим первичную настройку системы. Шаг с входом с помощью Apple ID пропускаем.
+- Теперь у вас есть ноутбук с macOS, но загрузиться в нее можно только с помощью загрузочной флешки. Чтобы исправить это выполните [следующую инструкцию](#install-clover-bootloader)
 
 ## <a name="post-installation"></a> После установки
 
@@ -240,24 +256,20 @@ Install media now available at "/Volumes/Install macOS Mojave"
 
 - Скачать [clover](https://sourceforge.net/projects/cloverefiboot/files/Installer/)
 - Запустить установщик
-- Сменить цель установки на *"Target Volume"*
+- Сменить цель установки на "Раздел куда была установлена система"
 - Выбрать *Настроить*
-- Отметить "Установить Clover только для UEFI загрузки" ("Установить Clover на раздел ESP" выберется автоматически)
-- Отметить *"OsxAptioFix3Drv-64"* from Drivers64UEFI
-- Отметить *"EmuVariableUefi-64.efi"* from Drivers64UEFI
-- Отметить *"Install RC scripts on target volume"*
+- Отметить *Установить Clover только для UEFI загрузки* (*Установить Clover на раздел ESP* выберется автоматически)
+- Отметить *OSXAptioFix3Drv* (*Драйверы для UEFI загрузки* -> *Memory fix drivers*)
+- Отметить *EmuVariableUefi* (*Драйверы для UEFI загрузки* -> *Additional drivers*)
+- Отметить *Системные RC-скрипты целевого раздела* (*Install RC scripts on target volume*)
 
 ### <a name="configure-clover"></a> Настройка Clover и системы
 
-- Replace the existing config.plist with the config.plist from *“Clover Post-Install Files”*
-- Add the two EFI drivers from *“Clover Post-Install Files”/drivers64UEFI* to `<EFI Partition>/EFI/CLOVER/drivers64UEFI`, and remove VBoxHfs-64.efi from /EFI/CLOVER/drivers64UEFI
-- Add the included SSDTs in *patched* folder into your `<EFI Partition>/EFI/CLOVER/ACPI/patched` folder
-- Copy all of the kexts that are located in *Clover Post-Install Files/"Clover/Other Kexts"* folder to `<EFI Partition>/EFI/Clover/Other` on your system.
-- Copy all of the kexts that are located in *Clover Post-Install Files/"/L/E Kexts"* folder to `/Library/Extensions` on your system.
-- Run *Scripts/fixPermissions.sh* from given release as root to fix kext permissions
-- Reboot the laptop and boot with '-f' command line option (press space at clover)
-- Rebuild the cache using `sudo kextcache -i /`
-- Reboot  
+- Раскладываем по своим местам файлы из директории *Post-Install Files* этого репозитория
+- Запустить *Scripts/fixPermissions.sh* с правами суперпользователя, чтобы исправить kext permissions
+- Перезагрузить ноутбук с `-f` флагом (Options -> Boot args в Clover)
+- Пересобрать кэш командой `sudo kextcache -i /`
+- Перезагрузить ноутбук  
 
 ### <a name="turn-off-hibernation"></a> Отключить гибернацию
 
