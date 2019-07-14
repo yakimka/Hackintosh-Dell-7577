@@ -14,8 +14,6 @@
 			<dict>
 				<key>FixHPET</key>
 				<true/>
-				<key>FixHeaders</key>
-				<true/>
 				<key>FixIPIC</key>
 				<true/>
 				<key>FixRTC</key>
@@ -177,8 +175,8 @@
 				</dict>
 			</array>
 		</dict>
-		<key>SSDT</key>
-		<dict/>
+		<key>FixHeaders</key>
+		<true/>
 	</dict>
 	<key>Boot</key>
 	<dict>
@@ -192,8 +190,10 @@
 		<string>LastBootedVolume</string>
 		<key>Legacy</key>
 		<string>PBR</string>
+		<key>NoEarlyProgress</key>
+		<true/>
 		<key>Timeout</key>
-		<integer>-1</integer>
+		<integer>1</integer>
 	</dict>
 	<key>BootGraphics</key>
 	<dict>
@@ -207,7 +207,7 @@
 		<key>Audio</key>
 		<dict>
 			<key>Inject</key>
-			<string>13</string>
+			<integer>13</integer>
 		</dict>
 		<key>Properties</key>
 		<dict>
