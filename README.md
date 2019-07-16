@@ -7,6 +7,7 @@
   + [Требования](#requirements)
 * [Создание загрузочной флешки](#create-usb)
   + [В MacOS](#create-usb-macos)
+  + [В Linux](#create-usb-linux)
   + [В Windows](#create-usb-windows)
 * [Установка](#installation)
 * [После установки](#post-installation)
@@ -84,10 +85,10 @@ Clover Post-Install Files:
 ### <a name="known-bugs"></a> Известные проблемы
 
 - Не работает дискретная карта (нет способа завести Optimus на macOS)
+- HDMI не работает, потому что он подключен к Nvidia карте, которую мы отключили
 - Встроенный Wi-Fi не работает (нужно заменить модуль на совместимый, например *Dell DW1560 (на Broadcomm BCM94352Z)*)
 - Звук через наушники пропадает после сна (скорее всего поможет downgrade AppleALC до версии ~1.2.8)
 - Микрофон гарнитуры
-- HDMI не работает, потому что он подключен к Nvidia карте, которую мы отключили (для Optimus ноутбуков невозможно завести дискретное видео)
 
 ### <a name="specs"></a> Протестировано
 
@@ -199,6 +200,117 @@ Install media now available at "/Volumes/Install macOS Mojave"
 
 ![1a5ee4d7.png](assets/1a5ee4d7.png)
 
+### <a name="create-usb-linux"></a> В Linux
+
+1. Подключаем флешку
+2. Скачиваем образ macOS [отсюда](https://mac-ru.net/viewtopic.php?t=1402), [отсюда](https://mac-ru.net/viewtopic.php?t=41), [отсюда](https://nnmclub.to/forum/viewtopic.php?t=1069291) или с [магнет-ссылки](http://магнит.tk/#magnet:?dn=BDUOSXDISTR&xt=urn:btih:64125b9f1387632e1b35b8da27eba422f9821d43) или из [меги](https://mega.nz/#!5wgzXQhR!uQHg6rSwJ5FH-oOWphm0HZxv1fqlaNfb1a_sKgzMjGI)
+3. Распаковываем образ из архива.
+4. Вводим команду `lsblk` и находим букву своей флешки (sdX, где X - буква флешки).
+5. Создаем разделы - `fdisk /dev/sdX`. После ввода этой команды появится командный интерфейс программы *fdisk*
+6. Вводим `o`. Это создаст новую MBR таблицу разделов
+7. Создаем новый ESP раздел:
+    - `n`
+    - *Partition type*, *Partition number* и *First sector* оставляем по умолчанию (просто жмем enter)
+    - *Last sector*: `+200M`
+8. Меняем тип раздела на W95 (LBA):
+    - `t`
+    - *Hex code*: `c`
+9. Создаем второй раздел под образ macOS:
+    - `n`
+    - *Partition type*, *Partition number*, *First sector*, *Last sector* оставляем по умолчанию
+10. Сохраняем изменения: `w`
+11. Форматируем ESP раздел: `mkfs.vfat -n "CLOVER EFI" -F32 /dev/sdX1`
+12. [Скачиваем](https://sourceforge.net/projects/cloverefiboot/files/Bootable_ISO/) ISO образ Clover. Распаковываем сначала архив, а затем и сам iso образ.
+13. Копируем *EFI*, *Library*, *usr* в корень *CLOVER EFI* раздела.
+14. Из *EFI/CLOVER/drivers/off/* в *EFI/CLOVER/drivers/UEFI/* копируем:
+    * ApfsDriverLoader.efi
+    * AudioDxe.efimas
+    * DataHubDxe.efi
+    * FSInject.efi
+    * OsxAptioFix3Drv.efi
+    * SMCHelper.efi
+15. Раскладываем по своим местам файлы из директории *USB Files* этого репозитория
+16. Выполняем `dd bs=4M if=/путь/к/5.hfs of=/dev/sdX2 status=progress oflag=sync`
+    >На этом шаге у вас уже должен быть скачан образ macOS в виде 5.hfs
+
+```
+# serj @ NEWTONE in ~ [23:40:23] 
+$ lsblk
+NAME                                                                                      MAJ:MIN RM   SIZE RO TYPE  MOUNTPOINT
+sda                                                                                         8:0    0 232,9G  0 disk  
+├─sda1                                                                                      8:1    0   200M  0 part  
+└─sda2                                                                                      8:2    0 232,7G  0 part  
+sdb                                                                                         8:16   1  29,3G  0 disk  
+├─sdb1                                                                                      8:17   1  31,5G  0 part  
+nvme0n1                                                                                   259:0    0 232,9G  0 disk  
+├─nvme0n1p1                                                                               259:1    0   550M  0 part  /boot
+└─nvme0n1p2                                                                               259:2    0 232,4G  0 part  
+  └─luks                                                                                  254:0    0 232,4G  0 crypt 
+    ├─vg0-swap                                                                            254:1    0     8G  0 lvm   [SWAP]
+    ├─vg0-root                                                                            254:2    0    62G  0 lvm   /
+    └─vg0-home                                                                            254:3    0 162,4G  0 lvm   /home
+
+# serj @ NEWTONE in ~ [23:42:13] 
+$ sudo fdisk /dev/sdb
+
+Welcome to fdisk (util-linux 2.34).
+Changes will remain in memory only, until you decide to write them.
+Be careful before using the write command.
+
+
+# Создаем новую MBR таблицу разделов
+Command (m for help): o
+Created a new DOS disklabel with disk identifier 0xcb7a20ce.
+
+# Создаем новый EFI раздел
+Command (m for help): n
+Partition type
+   p   primary (0 primary, 0 extended, 4 free)
+   e   extended (container for logical partitions)
+Select (default p):
+Partition number (1-4, default 1):
+First sector (2048-61457663, default 2048): 
+Last sector, +/-sectors or +/-size{K,M,G,T,P} (2048-61457663, default 61457663): +200M
+
+Created a new partition 1 of type 'Linux' and of size 200 MiB.
+
+# Меняем тип раздела на EFI
+Command (m for help): t
+Selected partition 1
+          
+Hex code (type L to list all codes): c
+Changed type of partition 'Linux' to 'W95 FAT32 (LBA)'.
+
+# Создаем второй раздел для образа macOS
+Command (m for help): n
+Partition type
+   p   primary (1 primary, 0 extended, 3 free)
+   e   extended (container for logical partitions)
+Select (default p):
+Partition number (2-4, default 2): 
+First sector (411648-61457663, default 411648): 
+Last sector, +/-sectors or +/-size{K,M,G,T,P} (411648-61457663, default 61457663): 
+
+Created a new partition 2 of type 'Linux' and of size 29,1 GiB.
+
+# Записываем изменения
+Command (m for help): w
+The partition table has been altered.
+Calling ioctl() to re-read partition table.
+Syncing disks.
+
+# serj @ NEWTONE in ~ [23:50:40] 
+$ sudo mkfs.vfat -n CLOVER -F32 /dev/sdb1                       
+mkfs.fat 4.1 (2017-01-24)
+
+# serj @ NEWTONE in ~ [23:52:41] 
+$ sudo dd bs=4M if=Downloads/5HFS_INSTALLAPP_MACOX_DISTR/WIN/5.hfs of=/dev/sdb2 status=progress oflag=sync
+6249512960 bytes (6,2 GB, 5,8 GiB) copied, 386 s, 16,2 MB/s
+1492+1 records in
+1492+1 records out
+6259073024 bytes (6,3 GB, 5,8 GiB) copied, 386,762 s, 16,2 MB/s
+```
+
 ### <a name="create-usb-windows"></a> В Windows
 
 1. Скачиваем *BootDiskUtility* [отсюда](http://cvad-mac.narod.ru/index/bootdiskutility_exe/0-5)
@@ -217,11 +329,9 @@ Install media now available at "/Volumes/Install macOS Mojave"
     * OsxAptioFix3Drv.efi
     * SMCHelper.efi
 10. Раскладываем по своим местам файлы из директории *USB Files* этого репозитория
-
->На этом шаге у вас уже должен быть скачан образ macOS в виде 5.hfs.
-
-1. Нажимаем на значок `+` рядом с названием USB. Если вы ничего не меняли в настройках, то у вас появится два раздела, один из которых будет иметь название `CLOVER`, а другой `NONAME`
-2. Выбираем `Part2`, который имеет название `NONAME`. Нажимаем кнопку Restore Partition и указываем прежде скачанный `5.hfs`. Начнется запись образа на USB.
+11. Нажимаем на значок `+` рядом с названием USB. Если вы ничего не меняли в настройках, то у вас появится два раздела, один из которых будет иметь название `CLOVER`, а другой `NONAME`
+    >На этом шаге у вас уже должен быть скачан образ macOS в виде 5.hfs.
+12. Выбираем `Part2`, который имеет название `NONAME`. Нажимаем кнопку Restore Partition и указываем прежде скачанный `5.hfs`. Начнется запись образа на USB.
 
 ![d22c8dee.png](assets/d22c8dee.png)
 
