@@ -3,7 +3,8 @@
 * [Описание](#description)
   + [Примечания](#notes)
   + [Известные проблемы](#known-bugs)
-  + [Протестировано](#specs)
+  + [Характеристики ноутбука](#specs)
+  + [Протестировано](#tested)
   + [Требования](#requirements)
 * [Создание загрузочной флешки](#create-usb)
   + [В MacOS](#create-usb-macos)
@@ -12,12 +13,18 @@
 * [Установка](#installation)
 * [После установки](#post-installation)
   + [Установка Clover bootloader](#install-clover-bootloader)
-  + [Настройка Clover и системы](#configure-clover)
+  + [Заводим микрофон гарнитуры](#enable-headset-micro)
+  + [Сброс кэшей](#clear-cache)
   + [Отключить гибернацию](#turn-off-hibernation)
   + [SMBIOS и iMessage](#smbios-and-imessage)
+* [Проблемы и их решения](#troubleshooting)
+  + [Шрифты выглядят размыто в Mojave](#mojave-blurry-fonts)
+  + [После обновления пропал звук или перестали работать некоторые кексты](#kexts-after-update)
 * [Использованные материалы](#references)
 
 ## <a name="description"></a> Описание
+
+![screenshot](assets/screenshot.png)
 
 ```plaintext
 Clover USB Files:
@@ -87,15 +94,24 @@ Clover Post-Install Files:
 - Не работает дискретная карта (нет способа завести Optimus на macOS)
 - HDMI не работает, потому что он подключен к Nvidia карте, которую мы отключили
 - Встроенный Wi-Fi не работает (нужно заменить модуль на совместимый, например *Dell DW1560 (на Broadcomm BCM94352Z)*)
-- Звук через наушники пропадает после сна (скорее всего поможет downgrade AppleALC до версии ~1.2.8)
-- Микрофон гарнитуры
+- Не работает Thunderbolt hotplug. Если вставить устройство в порт до загрузки ОС, то оно увидится системой и будет работоспособно (пробовал только с type-c -> USB-female, type-c -> HDMI переходника у меня нет)
+- Не работает датчик отпечатка пальца
 
-### <a name="specs"></a> Протестировано
+### <a name="specs"></a> Характеристики ноутбука
 
 - Intel i5-7300HQ CPU
 - Intel HD Graphics 630 / nVidia GTX 1050
-- 8GB DDR4 RAM
+- 8GB 2400MHz DDR4 RAM
 - 15.6" 1080p IPS Display
+- Thunderbolt 3: PCI-E 2.0 x4 Intel JHL6340 (Alpine Ridge 2C 2016)
+- Goodix GF3208 Fingerprint Sensor
+- Intel 8265 WiFi
+- Realtek ALC3246 Audio
+- RTL8111 PCI Express Gigabit Ethernet Controller (rev 15)
+
+### <a name="tested"></a> Протестировано
+
+- [Конфигурация](#specs)
 - 256GB Samsung 970 EVO M.2 SSD / 256GB Samsung 850 EVO SATA SSD
 - macOS High Sierra / macOS Mojave
 
@@ -125,6 +141,9 @@ Clover Post-Install Files:
     - *OSXAptioFix3Drv* (*Драйверы для UEFI закгрузки* -> *Memory fix drivers*)
 8. Начать установку
 9. Раскладываем по своим местам файлы из директории *USB Files* этого репозитория
+
+<details>
+<summary>Пример</summary>
 
 ```plaintext
 # serj @ MacBook-Pro-Serj in ~ [21:24:45]
@@ -200,6 +219,8 @@ Install media now available at "/Volumes/Install macOS Mojave"
 
 ![1a5ee4d7.png](assets/1a5ee4d7.png)
 
+</details>
+
 ### <a name="create-usb-linux"></a> В Linux
 
 1. Подключаем флешку
@@ -219,7 +240,7 @@ Install media now available at "/Volumes/Install macOS Mojave"
     - `n`
     - *Partition type*, *Partition number*, *First sector*, *Last sector* оставляем по умолчанию
 10. Сохраняем изменения: `w`
-11. Форматируем ESP раздел: `mkfs.vfat -n "CLOVER EFI" -F32 /dev/sdX1`
+11. Форматируем Clover раздел: `mkfs.vfat -n "CLOVER EFI" -F32 /dev/sdX1`
 12. [Скачиваем](https://sourceforge.net/projects/cloverefiboot/files/Bootable_ISO/) ISO образ Clover. Распаковываем сначала архив, а затем и сам iso образ.
 13. Копируем *EFI*, *Library*, *usr* в корень *CLOVER EFI* раздела.
 14. Из *EFI/CLOVER/drivers/off/* в *EFI/CLOVER/drivers/UEFI/* копируем:
@@ -232,6 +253,9 @@ Install media now available at "/Volumes/Install macOS Mojave"
 15. Раскладываем по своим местам файлы из директории *USB Files* этого репозитория
 16. Выполняем `dd bs=4M if=/путь/к/5.hfs of=/dev/sdX2 status=progress oflag=sync`
     >На этом шаге у вас уже должен быть скачан образ macOS в виде 5.hfs
+
+<details>
+<summary>Пример</summary>
 
 ```
 # serj @ NEWTONE in ~ [23:40:23] 
@@ -311,6 +335,8 @@ $ sudo dd bs=4M if=Downloads/5HFS_INSTALLAPP_MACOX_DISTR/WIN/5.hfs of=/dev/sdb2 
 6259073024 bytes (6,3 GB, 5,8 GiB) copied, 386,762 s, 16,2 MB/s
 ```
 
+</details>
+
 ### <a name="create-usb-windows"></a> В Windows
 
 1. Скачиваем *BootDiskUtility* [отсюда](http://cvad-mac.narod.ru/index/bootdiskutility_exe/0-5)
@@ -333,6 +359,9 @@ $ sudo dd bs=4M if=Downloads/5HFS_INSTALLAPP_MACOX_DISTR/WIN/5.hfs of=/dev/sdb2 
     >На этом шаге у вас уже должен быть скачан образ macOS в виде 5.hfs.
 12. Выбираем `Part2`, который имеет название `NONAME`. Нажимаем кнопку Restore Partition и указываем прежде скачанный `5.hfs`. Начнется запись образа на USB.
 
+<details>
+<summary>Пример</summary>
+    
 ![d22c8dee.png](assets/d22c8dee.png)
 
 ![af42655e.png](assets/af42655e.png)
@@ -344,6 +373,8 @@ $ sudo dd bs=4M if=Downloads/5HFS_INSTALLAPP_MACOX_DISTR/WIN/5.hfs of=/dev/sdb2 
 ![89f15d6f.png](assets/89f15d6f.png)
 
 ![d9ab9c76.png](assets/d9ab9c76.png)
+  
+</details>
 
 ## <a name="installation"></a> Установка
 
@@ -363,6 +394,10 @@ $ sudo dd bs=4M if=Downloads/5HFS_INSTALLAPP_MACOX_DISTR/WIN/5.hfs of=/dev/sdb2 
 
 ## <a name="post-installation"></a> После установки
 
+В обязательном порядке нужно установить Clover на диск куда была установлена система, иначе грузиться прийдется только с флешки.
+Если вам нужен работающий микрофон гарнитуры, тогда выполните действия [этой инструкции](#enable-headset-micro).
+После выполнения этих действий нужно обязательно [сбросить кэши](#clear-cache).
+
 ### <a name="install-clover-bootloader"></a> Установка Clover bootloader
 
 - Скачать [clover](https://sourceforge.net/projects/cloverefiboot/files/Installer/)
@@ -373,10 +408,15 @@ $ sudo dd bs=4M if=Downloads/5HFS_INSTALLAPP_MACOX_DISTR/WIN/5.hfs of=/dev/sdb2 
 - Отметить *OSXAptioFix3Drv* (*Драйверы для UEFI загрузки* -> *Memory fix drivers*)
 - Отметить *EmuVariableUefi* (*Драйверы для UEFI загрузки* -> *Additional drivers*)
 - Отметить *Системные RC-скрипты целевого раздела* (*Install RC scripts on target volume*)
-
-### <a name="configure-clover"></a> Настройка Clover и системы
-
 - Раскладываем по своим местам файлы из директории *Post-Install Files* этого репозитория
+
+### <a name="enable-headset-micro"></a> Заводим микрофон гарнитуры
+
+- Клонируем [репозиторий](https://github.com/hackintosh-stuff/ComboJack.git)
+- Выполняем инструкции из README
+
+### <a name="clear-cache"></a> Сброс кэшей
+
 - Запустить *Scripts/fixPermissions.sh* с правами суперпользователя, чтобы исправить kext permissions
 - Перезагрузить ноутбук с `-f` флагом (Options -> Boot args в Clover)
 - Пересобрать кэш командой `sudo kextcache -i /`
@@ -397,11 +437,38 @@ sudo pmset -a powernap 0
 
 Инструкция по настройке SMBIOS, после выполнения которой заработают iMessage, FaceTime и тд. [An iDiot's Guide To iMessage](https://www.tonymacx86.com/threads/an-idiots-guide-to-imessage.196827/)
 
+## <a name="troubleshooting"></a> Проблемы и их решения
+
+### <a name="mojave-blurry-fonts"></a> Шрифты выглядят размыто в Mojave
+
+- Из-за субпиксельного сглаживания, которое включено по умолчанию в Mojave шрифты на не-retina дисплеях выглядят размыто
+- Эти действия заставят шрифты выглядеть немного лучше:
+    ```
+    # Введите эти команды в терминале и перезагрузите ноутбук
+
+    defaults write -g CGFontRenderingFontSmoothingDisabled -bool NO
+    defaults -currentHost write -globalDomain AppleFontSmoothing -int 2
+    ```
+- Чтобы откатить изменения:
+    ```
+    # Введите эти команды в терминале и перезагрузите ноутбук
+
+    defaults -currentHost delete -globalDomain AppleFontSmoothing
+    defaults write -g CGFontRenderingFontSmoothingDisabled -bool YES
+    ```
+
+### <a name="kexts-after-update"></a> После обновления пропал звук или перестали работать некоторые кексты
+
+- Необходимо [сбросить кэши](#clear-cache)
+
 ## <a name="references"></a> Использованные материалы
 
-1. [Установка Mac OS X на Intel-PC – Telegraph](https://telegra.ph/Ustanovka-Mac-OS-X-na-Intel-PC-08-18-2)
-2. [GitHub - meixiaofei/Dell7570_MacOs_Clover: This project targets at giving the relatively complete functional ```macOS(what I use is 13.3)``` for Dell 7570, and all were have been driven except 940m and wifi.](https://github.com/meixiaofei/Dell7570_MacOs_Clover)
-3. [GitHub - Nihhaar/Hackintosh-Dell-7567: Guide for installing macOS Mojave & High Sierra on Dell Inspiron 7567 Gaming Laptop](https://github.com/Nihhaar/Hackintosh-Dell-7567)
-4. [[Guide] Booting the OS X installer on LAPTOPS with Clover \| tonymacx86.com](https://www.tonymacx86.com/threads/guide-booting-the-os-x-installer-on-laptops-with-clover.148093/)
-5. [How to create a bootable installer for macOS - Apple Support](https://support.apple.com/en-us/HT201372)
-6. [How to install Clover Bootloader on USB from Windows and Linux](https://www.aioboot.com/en/clover-bootloader-windows/)
+1. [GitHub - Nihhaar/Hackintosh-Dell-7567](https://github.com/Nihhaar/Hackintosh-Dell-7567)
+2. [GitHub - hackintosh-stuff/ComboJack](https://github.com/hackintosh-stuff/ComboJack)
+3. [Установка Mac OS X на Intel-PC](https://telegra.ph/Ustanovka-Mac-OS-X-na-Intel-PC-08-18-2)
+4. [GitHub - meixiaofei/Dell7570_MacOs_Clover](https://github.com/meixiaofei/Dell7570_MacOs_Clover)
+5. [[Guide] Booting the OS X installer on LAPTOPS with Clover](https://www.tonymacx86.com/threads/guide-booting-the-os-x-installer-on-laptops-with-clover.148093/)
+6. [[Guide] Dell Inspiron 15 7567 (and similar) (Near-Full Functionality)](https://www.tonymacx86.com/threads/guide-dell-inspiron-15-7567-and-similar-near-full-functionality.234988/)
+7. [How to create a bootable installer for macOS](https://support.apple.com/en-us/HT201372)
+8. [How to install Clover Bootloader on USB from Windows and Linux](https://www.aioboot.com/en/clover-bootloader-windows/)
+9. [An iDiot's Guide To iMessage](https://www.tonymacx86.com/threads/an-idiots-guide-to-imessage.196827/)
