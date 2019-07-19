@@ -22,6 +22,7 @@
   + [После обновления пропал звук или перестали работать некоторые кексты](#kexts-after-update)
   + ["Рваный" скролл при использовании не Apple мыши](#smooth-scroll)
 * [Использованные материалы](#references)
+  + [Кексты](#kexts)
 
 ## <a name="description"></a> Описание
 
@@ -478,3 +479,18 @@ sudo pmset -a powernap 0
 7. [How to create a bootable installer for macOS](https://support.apple.com/en-us/HT201372)
 8. [How to install Clover Bootloader on USB from Windows and Linux](https://www.aioboot.com/en/clover-bootloader-windows/)
 9. [An iDiot's Guide To iMessage](https://www.tonymacx86.com/threads/an-idiots-guide-to-imessage.196827/)
+
+### <a name="kexts"></a> Кексты
+
+- ACPIBatteryManager [RehabMan-Battery-2018-1005.zip (1.90.1)](https://bitbucket.org/RehabMan/os-x-acpi-battery-driver/downloads/)
+- AppleBacklightInjector [hack-tools](https://github.com/RehabMan/hack-tools/tree/master/kexts)
+- CodecCommander [RehabMan-CodecCommander-2018-1003.zip (2.7.1)](https://bitbucket.org/RehabMan/os-x-eapd-codec-commander/downloads/)
+- VoodooPS2Controller [RehabMan-Voodoo-2018-1008.zip (1.9.2)](https://bitbucket.org/RehabMan/os-x-voodoo-ps2-controller/downloads/)
+
+- AppleALC [1.3.9](https://github.com/acidanthera/AppleALC/releases)
+- FakeSMC [RehabMan-FakeSMC-2018-0915.zip (6.26-357-gceb835ea.1800)](https://bitbucket.org/RehabMan/os-x-fakesmc-kozlek/downloads/)
+- Lilu [1.3.7](https://github.com/acidanthera/Lilu/releases)
+- RealtekRTL8111 [2.2.2](https://github.com/Mieze/RTL8111_driver_for_OS_X/releases)
+- USBInjectAll [RehabMan-USBInjectAll-2018-1108.zip (0.7.1)](https://bitbucket.org/RehabMan/os-x-usb-inject-all/downloads/)
+- VoodooI2C & VoodooI2CHID [2.1.4](https://github.com/alexandred/VoodooI2C/releases)
+- WhateverGreen [1.3.0](https://github.com/acidanthera/WhateverGreen/releases)
