@@ -483,7 +483,7 @@ sudo pmset -a powernap 0
 ### <a name="kexts"></a> Кексты
 
 - ACPIBatteryManager [RehabMan-Battery-2018-1005.zip (1.90.1)](https://bitbucket.org/RehabMan/os-x-acpi-battery-driver/downloads/)
-- AppleBacklightInjector [hack-tools](https://github.com/RehabMan/hack-tools/tree/master/kexts)
+- AppleBacklightFixup [RehabMan-BacklightFixup-2018-1013.zip (1.0.2)](https://bitbucket.org/RehabMan/applebacklightfixup/downloads/)
 - CodecCommander [RehabMan-CodecCommander-2018-1003.zip (2.7.1)](https://bitbucket.org/RehabMan/os-x-eapd-codec-commander/downloads/)
 - VoodooPS2Controller [RehabMan-Voodoo-2018-1008.zip (1.9.2)](https://bitbucket.org/RehabMan/os-x-voodoo-ps2-controller/downloads/)
 
