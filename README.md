@@ -140,7 +140,7 @@ Clover Post-Install Files:
 6. Выбираем раздел *CLOVER EFI* для установки
 7. Выбираем *Настроить* и отмечаем пункты
     - *Установить Clover только для UEFI загрузки* (*Установить Clover на раздел ESP* выберется автоматически)
-    - *OSXAptioFix3Drv* (*Драйверы для UEFI закгрузки* -> *Memory fix drivers*)
+    - *OSXAptioFix3Drv* (*Драйверы для UEFI загрузки* -> *Memory fix drivers*)
 8. Начать установку
 9. Раскладываем по своим местам файлы из директории *USB Files* этого репозитория
 
@@ -410,6 +410,7 @@ $ sudo dd bs=4M if=Downloads/5HFS_INSTALLAPP_MACOX_DISTR/WIN/5.hfs of=/dev/sdb2 
 - Отметить *OSXAptioFix3Drv* (*Драйверы для UEFI загрузки* -> *Memory fix drivers*)
 - Отметить *EmuVariableUefi* (*Драйверы для UEFI загрузки* -> *Additional drivers*)
 - Отметить *Системные RC-скрипты целевого раздела* (*Install RC scripts on target volume*)
+- Отметить *FileVault 2 UEFI drivers* (*Драйверы для UEFI загрузки*) (Опционально, если вы хотите в дальнейшем пользоваться этой возможностью)
 - Раскладываем по своим местам файлы из директории *Post-Install Files* этого репозитория
 
 ### <a name="enable-headset-micro"></a> Заводим микрофон гарнитуры
