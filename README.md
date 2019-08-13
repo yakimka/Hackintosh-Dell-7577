@@ -162,6 +162,8 @@ Clover Post-Install Files:
   - Изменить *System Configuration -> SATA Operations* на AHCI
   - Изменить *Secure Boot -> Secure Boot Enable* на Disabled
   - Убрать галочку с *Virtualization Support -> VT for Direct I/O -> Enable VT for Direct I/O*
+  - Поставить все галочки в *System Configuration -> Thunderbolt Adapter Configuration*
+  - "Security level - No Security" в *System Configuration -> Thunderbolt Adapter Configuration*
 - USB флешка размером >= 16GB, желательно USB 2.0 (с 3.0 у меня не получилось установить)
 
 ## <a name="create-usb"></a> Создание загрузочной флешки
