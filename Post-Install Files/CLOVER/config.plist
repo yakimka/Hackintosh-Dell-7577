@@ -215,15 +215,15 @@
 			<dict>
 				<key>AAPL,ig-platform-id</key>
 				<data>
-				AAAbWQ==
+				AAAWWQ==
 				</data>
 				<key>framebuffer-con1-enable</key>
 				<data>
 				AQAAAA==
 				</data>
-				<key>framebuffer-con1-index</key>
+				<key>framebuffer-con1-type</key>
 				<data>
-				/////w==
+				AAgAAA==
 				</data>
 				<key>framebuffer-con2-enable</key>
 				<data>
@@ -239,11 +239,11 @@
 				</data>
 				<key>framebuffer-pipecount</key>
 				<data>
-				AQAAAA==
+				AgAAAA==
 				</data>
 				<key>framebuffer-portcount</key>
 				<data>
-				AQAAAA==
+				AgAAAA==
 				</data>
 				<key>framebuffer-unifiedmem</key>
 				<data>

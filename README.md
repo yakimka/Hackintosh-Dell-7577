@@ -96,12 +96,13 @@ Clover Post-Install Files:
 - Не работает дискретная карта (нет способа завести Optimus на macOS)
 - HDMI не работает, потому что он подключен к Nvidia карте, которую мы отключили
 - Встроенный Wi-Fi не работает (нужно заменить модуль на совместимый, например *Dell DW1560 (на Broadcomm BCM94352Z)*)
-- Не работает Thunderbolt hotplug. Если вставить устройство в порт до загрузки ОС, то оно увидится системой и будет работоспособно (пробовал только с type-c -> USB-female, type-c -> HDMI переходника у меня нет)
+- Не работает Thunderbolt hotplug
+    * Если вставить устройство в порт до загрузки ОС, то оно увидится системой и будет работоспособно (USB-C to USB, USB-C to HDMI работают) если после загрузки системы устройство не отключать
 - Не работает датчик отпечатка пальца
 
 ### <a name="specs"></a> Характеристики ноутбука
 
-- Intel i5-7300HQ CPU
+- Intel i5-7300HQ CPU (Kaby Lake)
 - Intel HD Graphics 630 / nVidia GTX 1050
 - 8GB 2400MHz DDR4 RAM
 - 15.6" 1080p IPS Display
@@ -480,6 +481,7 @@ sudo pmset -a powernap 0
 7. [How to create a bootable installer for macOS](https://support.apple.com/en-us/HT201372)
 8. [How to install Clover Bootloader on USB from Windows and Linux](https://www.aioboot.com/en/clover-bootloader-windows/)
 9. [An iDiot's Guide To iMessage](https://www.tonymacx86.com/threads/an-idiots-guide-to-imessage.196827/)
+10. [[Guide] Intel Framebuffer patching using WhateverGreen](https://www.tonymacx86.com/threads/guide-intel-framebuffer-patching-using-whatevergreen.256490/)
 
 ### <a name="kexts"></a> Кексты
 
