@@ -3,7 +3,7 @@
 * [Описание](#description)
   + [Примечания](#notes)
   + [Характеристики ноутбука](#specs)
-  + [Протестировано](#tested)
+  + [Протестировано на конфигурации](#tested)
   + [Что работает](#whats-working)
   + [Известные проблемы](#known-bugs)
   + [Требования](#requirements)
@@ -23,7 +23,7 @@
   + [После обновления пропал звук или перестали работать некоторые кексты](#kexts-after-update)
   + ["Рваный" скролл при использовании не Apple мыши](#smooth-scroll)
 * [Использованные материалы](#references)
-  + [Кексты](#kexts)
+  + [Использованные кексты](#kexts)
 
 ## <a name="description"></a> Описание
 
@@ -85,12 +85,13 @@ Clover Post-Install Files:
    - SSDT-XCPM: Injecting plugin-type for power management
    - SSDT-XOSI: Faking OS for the ACPI
    - SSDT_ALC256: CodecCommander config for ALC256 (removes headphone noise)
+   - SSDT-TYPC: USB-C Hotplug (took from the-darkvoid repo: https://github.com/the-darkvoid/XPS9360-macOS)
 ```
 
 ### <a name="notes"></a> Примечания
 
 - Работающий хакинтош на 10.14 (Mojave) и 10.13.x (High Sierra)
-- Нет поддрежки 4К дисплея *(у меня FullHD ноутбук)*. Но @Nihhaar считает что получится подключить с помощью `эти файлы` + `CoreDisplayFixup.kext` + `DVMT patch`
+- Нет поддрежки 4К дисплея *(у меня FullHD ноутбук)*. Но [@Nihhaar](https://github.com/Nihhaar/Hackintosh-Dell-7567) считает что получится подключить с помощью `эти файлы` + `CoreDisplayFixup.kext` + `DVMT patch`
 
 ### <a name="specs"></a> Характеристики ноутбука
 
@@ -104,12 +105,22 @@ Clover Post-Install Files:
 - Realtek ALC3246 Audio
 - RTL8111 PCI Express Gigabit Ethernet Controller (rev 15)
 
-### <a name="tested"></a> Протестировано
+### <a name="tested"></a> Протестировано на конфигурации
 
-- [Конфигурация](#specs)
-- 256GB Samsung 970 EVO M.2 SSD / 256GB Samsung 850 EVO SATA SSD
-- macOS High Sierra / macOS Mojave
-- Clover v2.4 r4988
+- Железо
+    * [Характеристики ноутбука](#specs)
+    * 256GB Samsung 970 EVO M.2 SSD / 256GB Samsung 850 EVO SATA SSD
+- Софт
+    * Bios v1.4.2
+    * macOS High Sierra / macOS Mojave
+    * Clover v2.4 r4988
+- Периферия
+    * [ICZI 6 in 1 USB-C Hub](http://ali.onl/1mD3)
+        * USB-C PD (Power Delivery), 2x USB-3, HDMI and TF/SD connections
+    * [Raxfly USB-C OTG adapter](http://ali.onl/1mD4)
+        * 1x USB-3 port
+- Мониторы, ТВ и т.д.
+    * [Toshiba 49V5863DG 49" 4K](https://toshiba-tv.com/ua-en/49v5863dg)
 
 ### <a name="whats-working"></a> Что работает
 
@@ -126,10 +137,11 @@ Clover Post-Install Files:
     * Драг & дроп
     * и т.д.
 - USB (2.0 и 3.0)
-- Thunderbolt port (см. [Известные проблемы](#known-bugs))
+- Thunderbolt (USB-C) port (см. [Известные проблемы](#known-bugs))
     * USB-C to USB
     * USB-C to HDMI
-- Внешний монитор (через Thunderbolt порт)
+- USB-C hotplug
+- Внешний монитор (через USB-C порт)
 - Ethernet
 - Fn сочетания клавиш
     * Громкость
@@ -151,9 +163,8 @@ Clover Post-Install Files:
 - Не работает дискретная карта (нет способа завести Optimus на macOS)
 - HDMI не работает, потому что он подключен к Nvidia карте, которую мы отключили
 - Встроенный Wi-Fi не работает (нужно заменить модуль на совместимый, например *Dell DW1560 (на Broadcomm BCM94352Z)*)
-- Не работает Thunderbolt hotplug
-    * Если вставить устройство в порт до загрузки ОС, то оно увидится системой и будет работоспособно (USB-C to USB, USB-C to HDMI работают) если после загрузки системы устройство не отключать
 - Не работает датчик отпечатка пальца
+- Возможно не будет работать hotplug для Thunderbolt девайсов, у меня нет таких, чтобы проверить (для девайсов перечисленных в "Периферия" см. [Протестировано на конфигурации](#tested) hotplug работает). Если у вас есть такой девайс и для него hotplug действительно не работает, можете попробовать использовать эту утилиту: [IOElectrify](https://github.com/the-darkvoid/macOS-IOElectrify)
 
 ### <a name="requirements"></a> Требования
 
@@ -437,7 +448,7 @@ $ sudo dd bs=4M if=Downloads/5HFS_INSTALLAPP_MACOX_DISTR/WIN/5.hfs of=/dev/sdb2 
 ## <a name="post-installation"></a> После установки
 
 В обязательном порядке нужно установить Clover на диск куда была установлена система, иначе грузиться прийдется только с флешки.
-Если вам нужен работающий микрофон гарнитуры, тогда выполните действия [этой инструкции](#enable-headset-micro).
+Если вам нужен работающий микрофон гарнитуры - выполните действия [этой инструкции](#enable-headset-micro).
 После выполнения этих действий нужно обязательно [сбросить кэши](#clear-cache).
 
 ### <a name="install-clover-bootloader"></a> Установка Clover bootloader
@@ -511,18 +522,19 @@ sudo pmset -a powernap 0
 
 ## <a name="references"></a> Использованные материалы
 
-1. [GitHub - Nihhaar/Hackintosh-Dell-7567](https://github.com/Nihhaar/Hackintosh-Dell-7567)
-2. [GitHub - hackintosh-stuff/ComboJack](https://github.com/hackintosh-stuff/ComboJack)
+1. [Nihhaar/Hackintosh-Dell-7567](https://github.com/Nihhaar/Hackintosh-Dell-7567)
+2. [hackintosh-stuff/ComboJack](https://github.com/hackintosh-stuff/ComboJack)
 3. [Установка Mac OS X на Intel-PC](https://telegra.ph/Ustanovka-Mac-OS-X-na-Intel-PC-08-18-2)
-4. [GitHub - meixiaofei/Dell7570_MacOs_Clover](https://github.com/meixiaofei/Dell7570_MacOs_Clover)
+4. [meixiaofei/Dell7570_MacOs_Clover](https://github.com/meixiaofei/Dell7570_MacOs_Clover)
 5. [[Guide] Booting the OS X installer on LAPTOPS with Clover](https://www.tonymacx86.com/threads/guide-booting-the-os-x-installer-on-laptops-with-clover.148093/)
 6. [[Guide] Dell Inspiron 15 7567 (and similar) (Near-Full Functionality)](https://www.tonymacx86.com/threads/guide-dell-inspiron-15-7567-and-similar-near-full-functionality.234988/)
 7. [How to create a bootable installer for macOS](https://support.apple.com/en-us/HT201372)
 8. [How to install Clover Bootloader on USB from Windows and Linux](https://www.aioboot.com/en/clover-bootloader-windows/)
 9. [An iDiot's Guide To iMessage](https://www.tonymacx86.com/threads/an-idiots-guide-to-imessage.196827/)
 10. [[Guide] Intel Framebuffer patching using WhateverGreen](https://www.tonymacx86.com/threads/guide-intel-framebuffer-patching-using-whatevergreen.256490/)
+11. [the-darkvoid/XPS9360-macOS](https://github.com/the-darkvoid/XPS9360-macOS)
 
-### <a name="kexts"></a> Кексты
+### <a name="kexts"></a> Использованные кексты
 
 - ACPIBatteryManager [RehabMan-Battery-2018-1005.zip (1.90.1)](https://bitbucket.org/RehabMan/os-x-acpi-battery-driver/downloads/)
 - AppleBacklightFixup [RehabMan-BacklightFixup-2018-1013.zip (1.0.2)](https://bitbucket.org/RehabMan/applebacklightfixup/downloads/)
