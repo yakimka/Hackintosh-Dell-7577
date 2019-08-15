@@ -51,6 +51,7 @@ Clover Post-Install Files:
    - ACPIBatteryManager: Kext for battery status
    - AppleBacklightFixup: Kext for backlight control
    - CodecCommander: Kext for solving 'no audio' after sleep
+   - HoRNDIS: Kext that allows to use Android phone's native USB tethering
    - VoodooPS2Controller: Kext for keyboard
 
  - kexts/Other:
@@ -548,3 +549,4 @@ sudo pmset -a powernap 0
 - USBInjectAll [RehabMan-USBInjectAll-2018-1108.zip (0.7.1)](https://bitbucket.org/RehabMan/os-x-usb-inject-all/downloads/)
 - VoodooI2C & VoodooI2CHID [2.1.4](https://github.com/alexandred/VoodooI2C/releases)
 - WhateverGreen [1.3.0](https://github.com/acidanthera/WhateverGreen/releases)
+- HoRNDIS [9.2](https://github.com/jwise/HoRNDIS/releases)
