@@ -24,6 +24,7 @@
   + ["Рваный" скролл при использовании не Apple мыши](#smooth-scroll)
 * [Использованные материалы](#references)
   + [Использованные кексты](#kexts)
+  + [Использованные драйверы](#drivers)
 
 ## <a name="description"></a> Описание
 
@@ -31,7 +32,7 @@
 
 ```plaintext
 Clover USB Files:
- - drivers64UEFI: HFSPlus.efi (for HFS+ fs), apfs.efi (for apfs fs)
+ - drivers64UEFI: HFSPlus.efi (for HFS+ fs), AppleUiSupport.efi (for UI drawing)
 
  - kexts/Other:
    - ApplePS2SmartTouchpad: For initial trackpad & keyboard support
@@ -114,7 +115,7 @@ Clover Post-Install Files:
 - Софт
     * Bios v1.4.2
     * macOS High Sierra / macOS Mojave
-    * Clover v2.4 r4988
+    * Clover v2.5 r5045
 - Периферия
     * [ICZI 6 in 1 USB-C Hub](http://ali.onl/1mD3)
         * USB-C PD (Power Delivery), 2x USB-3, HDMI and TF/SD connections
@@ -461,8 +462,9 @@ $ sudo dd bs=4M if=Downloads/5HFS_INSTALLAPP_MACOX_DISTR/WIN/5.hfs of=/dev/sdb2 
 - Отметить *Установить Clover только для UEFI загрузки* (*Установить Clover на раздел ESP* выберется автоматически)
 - Отметить *OSXAptioFix3Drv* (*Драйверы для UEFI загрузки* -> *Memory fix drivers*)
 - Отметить *EmuVariableUefi* (*Драйверы для UEFI загрузки* -> *Additional drivers*)
+- Отметить *ApfsDriverLoader* и *Fat* (*Драйверы для UEFI загрузки* -> *Драйверы файловой системы*)
 - Отметить *Системные RC-скрипты целевого раздела* (*Install RC scripts on target volume*)
-- Отметить *FileVault 2 UEFI drivers* (*Драйверы для UEFI загрузки*) (Опционально, если вы хотите в дальнейшем пользоваться этой возможностью)
+- Отметить AppleKeyFeeder (*Драйверы для UEFI загрузки* -> *FileVault 2 UEFI drivers*)
 - Раскладываем по своим местам файлы из директории *Post-Install Files* этого репозитория
 
 ### <a name="enable-headset-micro"></a> Заводим микрофон гарнитуры
@@ -550,3 +552,7 @@ sudo pmset -a powernap 0
 - VoodooI2C & VoodooI2CHID [2.1.4](https://github.com/alexandred/VoodooI2C/releases)
 - WhateverGreen [1.3.0](https://github.com/acidanthera/WhateverGreen/releases)
 - HoRNDIS [9.2](https://github.com/jwise/HoRNDIS/releases)
+
+### <a name="drivers"></a> Использованные драйверы
+
+- AppleUiSupport [2.0.9](https://github.com/acidanthera/AppleSupportPkg/releases)
