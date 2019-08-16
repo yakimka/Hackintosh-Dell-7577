@@ -158,6 +158,7 @@ Clover Post-Install Files:
 - Работа от батареи \ зарядка батареи
 - TRIM для SSD
 - Apple сервисы: iMessage, FaceTime, etc. (см. [SMBIOS и iMessage](#smbios-and-imessage))
+- FileVault 2
 - То что я забыл упомянуть 
 
 ### <a name="known-bugs"></a> Известные проблемы
@@ -464,7 +465,6 @@ $ sudo dd bs=4M if=Downloads/5HFS_INSTALLAPP_MACOX_DISTR/WIN/5.hfs of=/dev/sdb2 
 - Отметить *EmuVariableUefi* (*Драйверы для UEFI загрузки* -> *Additional drivers*)
 - Отметить *ApfsDriverLoader* и *Fat* (*Драйверы для UEFI загрузки* -> *Драйверы файловой системы*)
 - Отметить *Системные RC-скрипты целевого раздела* (*Install RC scripts on target volume*)
-- Отметить AppleKeyFeeder (*Драйверы для UEFI загрузки* -> *FileVault 2 UEFI drivers*)
 - Раскладываем по своим местам файлы из директории *Post-Install Files* этого репозитория
 
 ### <a name="enable-headset-micro"></a> Заводим микрофон гарнитуры
@@ -555,4 +555,4 @@ sudo pmset -a powernap 0
 
 ### <a name="drivers"></a> Использованные драйверы
 
-- AppleUiSupport [2.0.9](https://github.com/acidanthera/AppleSupportPkg/releases)
+- AppleUiSupport & AppleGenericInput [2.0.9](https://github.com/acidanthera/AppleSupportPkg/releases)
