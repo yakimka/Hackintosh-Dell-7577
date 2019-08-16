@@ -30,6 +30,8 @@
 
 ![screenshot](assets/screenshot.png)
 
+[Скачать последний релиз](https://github.com/yakimka/Hackintosh-Dell-7577/releases)
+
 ```plaintext
 Clover USB Files:
  - drivers64UEFI: HFSPlus.efi (for HFS+ fs), AppleUiSupport.efi (for UI drawing)
@@ -172,6 +174,7 @@ Clover Post-Install Files:
 
 ### <a name="requirements"></a> Требования
 
+- Скачать последнюю версию со [страницы резизов](https://github.com/yakimka/Hackintosh-Dell-7577/releases) и распаковать
 - Установить параметры BIOS:
   - Убрать галочку с *General -> Advanced Boot Options -> Enable Legacy Options ROMs*
   - Изменить *System Configuration -> SATA Operations* на AHCI
@@ -197,7 +200,7 @@ Clover Post-Install Files:
     - *Установить Clover только для UEFI загрузки* (*Установить Clover на раздел ESP* выберется автоматически)
     - *OSXAptioFix3Drv* (*Драйверы для UEFI загрузки* -> *Memory fix drivers*)
 8. Начать установку
-9. Раскладываем по своим местам файлы из директории *USB Files* этого репозитория
+9. Раскладываем по своим местам файлы из директории *USB Files* ([релизы](https://github.com/yakimka/Hackintosh-Dell-7577/releases))
 
 <details>
 <summary>Пример</summary>
@@ -307,7 +310,7 @@ Install media now available at "/Volumes/Install macOS Mojave"
     * FSInject.efi
     * OsxAptioFix3Drv.efi
     * SMCHelper.efi
-15. Раскладываем по своим местам файлы из директории *USB Files* этого репозитория
+15. Раскладываем по своим местам файлы из директории *USB Files* ([релизы](https://github.com/yakimka/Hackintosh-Dell-7577/releases))
 16. Выполняем `dd bs=4M if=/путь/к/5.hfs of=/dev/sdX2 status=progress oflag=sync`
     >На этом шаге у вас уже должен быть скачан образ macOS в виде 5.hfs
 
@@ -411,7 +414,7 @@ $ sudo dd bs=4M if=Downloads/5HFS_INSTALLAPP_MACOX_DISTR/WIN/5.hfs of=/dev/sdb2 
     * FSInject.efi
     * OsxAptioFix3Drv.efi
     * SMCHelper.efi
-10. Раскладываем по своим местам файлы из директории *USB Files* этого репозитория
+10. Раскладываем по своим местам файлы из директории *USB Files* ([релизы](https://github.com/yakimka/Hackintosh-Dell-7577/releases))
 11. Нажимаем на значок `+` рядом с названием USB. Если вы ничего не меняли в настройках, то у вас появится два раздела, один из которых будет иметь название `CLOVER`, а другой `NONAME`
     >На этом шаге у вас уже должен быть скачан образ macOS в виде 5.hfs.
 12. Выбираем `Part2`, который имеет название `NONAME`. Нажимаем кнопку Restore Partition и указываем прежде скачанный `5.hfs`. Начнется запись образа на USB.
@@ -466,7 +469,7 @@ $ sudo dd bs=4M if=Downloads/5HFS_INSTALLAPP_MACOX_DISTR/WIN/5.hfs of=/dev/sdb2 
 - Отметить *EmuVariableUefi* (*Драйверы для UEFI загрузки* -> *Additional drivers*)
 - Отметить *ApfsDriverLoader* и *Fat* (*Драйверы для UEFI загрузки* -> *Драйверы файловой системы*)
 - Отметить *Системные RC-скрипты целевого раздела* (*Install RC scripts on target volume*)
-- Раскладываем по своим местам файлы из директории *Post-Install Files* этого репозитория
+- Раскладываем по своим местам файлы из директории *Post-Install Files* ([релизы](https://github.com/yakimka/Hackintosh-Dell-7577/releases))
     * Если у вас процессор не i5, удалите CPUFriendDataProvider.kext из *CLOVER/kexts/Other* (или нагуглите под свой процессор)
 
 <details>
