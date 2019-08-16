@@ -66,6 +66,7 @@ Clover Post-Install Files:
    - VoodooI2C*: Kext for precision trackpad
    - VoodooPS2Controller: Kext for keyboard
    - WhateverGreen: Lilu plugin for various iGPU patches
+   - CPUFriendDataProvider: CPU profile for i5-7300HQ
 
  - config.plist:
    - DSDT Fixes: FixHPET, FixHeaders, FixIPIC, FixRTC, FixTMR
