@@ -467,6 +467,95 @@ $ sudo dd bs=4M if=Downloads/5HFS_INSTALLAPP_MACOX_DISTR/WIN/5.hfs of=/dev/sdb2 
 - Отметить *ApfsDriverLoader* и *Fat* (*Драйверы для UEFI загрузки* -> *Драйверы файловой системы*)
 - Отметить *Системные RC-скрипты целевого раздела* (*Install RC scripts on target volume*)
 - Раскладываем по своим местам файлы из директории *Post-Install Files* этого репозитория
+    * Если у вас процессор не i5, удалите CPUFriendDataProvider.kext из *CLOVER/kexts/Other* (или нагуглите под свой процессор)
+
+<details>
+<summary>Структура директории CLOVER</summary>
+├── ACPI
+│   ├── WINDOWS
+│   ├── origin
+│   └── patched
+│       ├── SSDT-ALS0.aml
+│       ├── SSDT-BRT6.aml
+│       ├── SSDT-Disable_DGPU.aml
+│       ├── SSDT-I2C.aml
+│       ├── SSDT-PNLF.aml
+│       ├── SSDT-PRW.aml
+│       ├── SSDT-TYPC.aml
+│       ├── SSDT-UIAC.aml
+│       ├── SSDT-XCPM.aml
+│       ├── SSDT-XOSI.aml
+│       └── SSDT_ALC256.aml
+├── CLOVERX64.efi
+├── OEM
+│   └── SystemProductName
+│       ├── ACPI
+│       │   ├── origin
+│       │   └── patched
+│       ├── ROM
+│       ├── UEFI
+│       │   ├── ACPI
+│       │   │   ├── origin
+│       │   │   └── patched
+│       │   ├── config-sample.plist
+│       │   └── kexts
+│       │       └── Other
+│       ├── config-sample.plist
+│       └── kexts
+│           └── Other
+├── ROM
+├── config.plist
+├── doc
+│   ├── HowToFixDsdt.txt
+│   ├── HowToInstallOSX.txt
+│   ├── UEFI\ boot\ with\ Clover.rtf
+│   ├── bcfg.txt
+│   └── boot1f32-install.sh
+├── drivers
+│   ├── BIOS
+│   │   └── ApfsDriverLoader.efi
+│   └── UEFI
+│       ├── ApfsDriverLoader.efi
+│       ├── AppleGenericInput.efi
+│       ├── AppleUiSupport.efi
+│       ├── AudioDxe.efi
+│       ├── DataHubDxe.efi
+│       ├── EmuVariableUefi.efi
+│       ├── FSInject.efi
+│       ├── Fat.efi
+│       ├── HFSPlus.efi
+│       ├── OsxAptioFix3Drv.efi
+│       └── SMCHelper.efi
+├── kexts
+│   └── Other
+│       ├── AppleALC.kext
+│       ├── AppleBacklightFixup.kext
+│       ├── CPUFriendDataProvider.kext
+│       ├── FakeSMC.kext
+│       ├── Lilu.kext
+│       ├── RealtekRTL8111.kext
+│       ├── SATA-100-series-unsupported.kext
+│       ├── USBInjectAll.kext
+│       ├── VoodooI2C.kext
+│       ├── VoodooI2CHID.kext
+│       ├── VoodooPS2Controller.kext
+│       └── WhateverGreen.kext
+├── misc
+├── themes
+│   ├── embedded
+│   │   ├── screenshot.png
+│   │   └── theme.plist
+│   ├── logo_main.png
+│   ├── pointer-metal.png
+│   └── random
+│       └── theme.plist
+└── tools
+    ├── Shell32.efi
+    ├── Shell64.efi
+    ├── Shell64U.efi
+    └── bdmesg.efi
+
+</details>
 
 ### <a name="enable-headset-micro"></a> Заводим микрофон гарнитуры
 
