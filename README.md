@@ -536,6 +536,8 @@ sudo pmset -a powernap 0
 9. [An iDiot's Guide To iMessage](https://www.tonymacx86.com/threads/an-idiots-guide-to-imessage.196827/)
 10. [[Guide] Intel Framebuffer patching using WhateverGreen](https://www.tonymacx86.com/threads/guide-intel-framebuffer-patching-using-whatevergreen.256490/)
 11. [the-darkvoid/XPS9360-macOS](https://github.com/the-darkvoid/XPS9360-macOS)
+12. [FileVault 2](https://www.insanelymac.com/forum/topic/317290-filevault-2/)
+13. [fabiofabio post](https://www.tonymacx86.com/threads/guide-dell-xps-9560-mojave-virtualsmc-i2c-trackpad-clover-uefi-hotpatch.263567/page-2#post-1842402)
 
 ### <a name="kexts"></a> Использованные кексты
 
