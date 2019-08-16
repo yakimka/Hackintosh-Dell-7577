@@ -471,6 +471,7 @@ $ sudo dd bs=4M if=Downloads/5HFS_INSTALLAPP_MACOX_DISTR/WIN/5.hfs of=/dev/sdb2 
 
 <details>
 <summary>Структура директории CLOVER</summary>
+<pre>
 ├── ACPI
 │   ├── WINDOWS
 │   ├── origin
@@ -554,6 +555,7 @@ $ sudo dd bs=4M if=Downloads/5HFS_INSTALLAPP_MACOX_DISTR/WIN/5.hfs of=/dev/sdb2 
     ├── Shell64.efi
     ├── Shell64U.efi
     └── bdmesg.efi
+</pre>
 
 </details>
 
